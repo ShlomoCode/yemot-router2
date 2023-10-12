@@ -27,7 +27,7 @@ export type Call = {
     callId: String;
     extension: String;
 
-    read(messages: Msg[], mode?: 'tap' | 'stt' | 'record', options?: TapOps | RecordOps | SstOps): Promise<String | false>;
+    read(messages: Msg[], options?: TapOps | RecordOps | SstOps): Promise<String | false>;
     go_to_folder(target: String): void;
     id_list_message(messages: Msg[], options?: idListMessageOptions): void;
     routing_yemot(number: String): void;
@@ -55,6 +55,7 @@ type GeneralOps = {
 };
 
 type TapOps = GeneralOps & {
+    mode: 'tap';
     max_digits?: Number;
     min_digits?: Number;
     sec_wait?: Number;
@@ -70,6 +71,7 @@ type TapOps = GeneralOps & {
 };
 
 type SstOps = GeneralOps & {
+    mode: 'stt';
     lang: String;
     block_typing?: Boolean;
     max_digits?: Number;
@@ -79,6 +81,7 @@ type SstOps = GeneralOps & {
 };
 
 type RecordOps = GeneralOps & {
+    mode: 'record';
     path: String;
     file_name: String;
     no_confirm_menu: Boolean;
