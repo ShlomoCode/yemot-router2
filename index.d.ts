@@ -38,13 +38,13 @@ export type Call = {
 type Msg = {
     type: 'file' | 'text' | 'speech' | 'digits' | 'number' | 'alpha' | 'zmanim' | 'go_to_folder' | 'system_message' | 'music_on_hold' | 'date' | 'dateH';
     data:
-        | String
-        | Number
-        | {
-              time?: String;
-              zone?: String;
-              difference?: String;
-          };
+    | String
+    | Number
+    | {
+        time?: String;
+        zone?: String;
+        difference?: String;
+    };
     removeInvalidChars?: Boolean;
 };
 
@@ -54,7 +54,7 @@ type GeneralOps = {
     removeInvalidChars?: Boolean;
 };
 
-type TapOps = GeneralTapOps & {
+type TapOps = GeneralOps & {
     max_digits?: Number;
     min_digits?: Number;
     sec_wait?: Number;
@@ -69,7 +69,7 @@ type TapOps = GeneralTapOps & {
     block_change_type_lang: Boolean;
 };
 
-type SstOps = GeneralTapOps & {
+type SstOps = GeneralOps & {
     lang: String;
     block_typing?: Boolean;
     max_digits?: Number;
@@ -78,7 +78,7 @@ type SstOps = GeneralTapOps & {
     length_max?: Number;
 };
 
-type RecordOps = GeneralTapOps & {
+type RecordOps = GeneralOps & {
     path: String;
     file_name: String;
     no_confirm_menu: Boolean;
@@ -100,12 +100,12 @@ class CallError extends Error {
     call: Call;
     date: Date;
     isYemotRouterError: Boolean;
-    constructor ({ message, call = null }) {
+    constructor({ message, call = null }) {
     }
 }
 
 class ExitError extends CallError {
-    constructor(call: Call, context: Object) {}
+    constructor(call: Call, context: Object) { }
 }
 
 class HangupError extends CallError { }
