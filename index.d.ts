@@ -6,7 +6,7 @@ interface YemotRouter {
     get: (path: String, handler: CallHandler) => void;
     post: (path: String, handler: CallHandler) => void;
     all: (path: String, handler: CallHandler) => void;
-    deleteCallL: (callId: String) => void;
+    deleteCall: (callId: String) => boolean;
     events: EventEmitter;
     defaults: {
         printLog?: Boolean;
