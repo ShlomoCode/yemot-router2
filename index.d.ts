@@ -54,7 +54,7 @@ type GeneralOps = {
     removeInvalidChars?: Boolean;
 };
 
-type TapOps = GeneralTapOps & {
+type TapOps = GeneralOps & {
     max_digits?: Number;
     min_digits?: Number;
     sec_wait?: Number;
@@ -69,7 +69,7 @@ type TapOps = GeneralTapOps & {
     block_change_type_lang: Boolean;
 };
 
-type SstOps = GeneralTapOps & {
+type SstOps = GeneralOps & {
     lang: String;
     block_typing?: Boolean;
     max_digits?: Number;
@@ -78,7 +78,7 @@ type SstOps = GeneralTapOps & {
     length_max?: Number;
 };
 
-type RecordOps = GeneralTapOps & {
+type RecordOps = GeneralOps & {
     path: String;
     file_name: String;
     no_confirm_menu: Boolean;
