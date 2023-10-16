@@ -20,14 +20,20 @@ interface YemotRouter {
     }
 }
 
+// based of https://tchumim.com/post/157692, https://tchumim.com/post/157706
+type ReadModes = {
+    tap: TapOptions;
+    stt: SstOptions;
+    record: RecordOptions;
+};
+
 export type Call = {
     did: string;
     phone: string;
     real_did: string;
     callId: string;
     extension: string;
-
-    read(messages: Msg[], mode?: 'tap' | 'stt' | 'record', options?: TapOps | RecordOps | SstOps): Promise<string | false>;
+    read<T extends keyof ReadModes>(messages: Msg[], mode: T, options?: ReadModes[T]): Promise<string>;
     go_to_folder(target: string): void;
     id_list_message(messages: Msg[], options?: idListMessageOptions): void;
     routing_yemot(number: string): void;
@@ -35,7 +41,7 @@ export type Call = {
     hangup(): void;
 };
 
-type Msg = {
+export type Msg = {
     type: 'file' | 'text' | 'speech' | 'digits' | 'number' | 'alpha' | 'zmanim' | 'go_to_folder' | 'system_message' | 'music_on_hold' | 'date' | 'dateH';
     data:
         | string
@@ -48,13 +54,13 @@ type Msg = {
     removeInvalidChars?: boolean;
 };
 
-type GeneralOps = {
+type GeneralOptions = {
     val_name?: string;
     re_enter_if_exists?: boolean;
     removeInvalidChars?: boolean;
 };
 
-type TapOps = GeneralOps & {
+interface TapOptions extends GeneralOptions {
     max_digits?: number;
     min_digits?: number;
     sec_wait?: number;
@@ -65,28 +71,28 @@ type TapOps = GeneralOps & {
     digits_allowed?: Array<number | string>;
     amount_attempts?: number;
     allow_empty?: boolean;
-    empty_val: string;
-    block_change_type_lang: boolean;
-};
+    empty_val?: string;
+    block_change_type_lang?: boolean;
+}
 
-type SstOps = GeneralOps & {
-    lang: string;
+interface SstOptions extends GeneralOptions {
+    lang?: string;
     block_typing?: boolean;
     max_digits?: number;
     use_records_recognition_engine?: boolean;
     quiet_max?: number;
     length_max?: number;
-};
+}
 
-type RecordOps = GeneralOps & {
-    path: string;
-    file_name: string;
-    no_confirm_menu: boolean;
-    save_on_hangup: boolean;
-    append_to_existing_file: boolean;
+interface RecordOptions extends GeneralOptions {
+    path?: string;
+    file_name?: string;
+    no_confirm_menu?: boolean;
+    save_on_hangup?: boolean;
+    append_to_existing_file?: boolean;
     min_length?: number;
     max_length?: number;
-};
+}
 
 type idListMessageOptions = {
     removeInvalidChars?: boolean;
