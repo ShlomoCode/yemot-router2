@@ -1,17 +1,17 @@
 import { EventEmitter } from 'events';
-export declare function YemotRouter(options?: { timeout: Number; printLog: Boolean; uncaughtErrorHandler: function }): YemotRouter;
+export declare function YemotRouter(options?: { timeout: number; printLog: boolean; uncaughtErrorHandler: function }): YemotRouter;
 
 type CallHandler = (p: Call) => void;
 interface YemotRouter {
-    get: (path: String, handler: CallHandler) => void;
-    post: (path: String, handler: CallHandler) => void;
-    all: (path: String, handler: CallHandler) => void;
-    deleteCall: (callId: String) => boolean;
+    get: (path: string, handler: CallHandler) => void;
+    post: (path: string, handler: CallHandler) => void;
+    all: (path: string, handler: CallHandler) => void;
+    deleteCall: (callId: string) => boolean;
     events: EventEmitter;
     defaults: {
-        printLog?: Boolean;
+        printLog?: boolean;
         read?: {
-            timeout?: Number;
+            timeout?: number;
             tap?: TapOps;
             stt?: SstOps;
             record?: RecordOps;
@@ -21,16 +21,16 @@ interface YemotRouter {
 }
 
 export type Call = {
-    did: String;
-    phone: String;
-    real_did: String;
-    callId: String;
-    extension: String;
+    did: string;
+    phone: string;
+    real_did: string;
+    callId: string;
+    extension: string;
 
-    read(messages: Msg[], mode?: 'tap' | 'stt' | 'record', options?: TapOps | RecordOps | SstOps): Promise<String | false>;
-    go_to_folder(target: String): void;
+    read(messages: Msg[], mode?: 'tap' | 'stt' | 'record', options?: TapOps | RecordOps | SstOps): Promise<string | false>;
+    go_to_folder(target: string): void;
     id_list_message(messages: Msg[], options?: idListMessageOptions): void;
-    routing_yemot(number: String): void;
+    routing_yemot(number: string): void;
     restart_ext(): void;
     hangup(): void;
 };
@@ -38,68 +38,68 @@ export type Call = {
 type Msg = {
     type: 'file' | 'text' | 'speech' | 'digits' | 'number' | 'alpha' | 'zmanim' | 'go_to_folder' | 'system_message' | 'music_on_hold' | 'date' | 'dateH';
     data:
-        | String
-        | Number
+        | string
+        | number
         | {
-              time?: String;
-              zone?: String;
-              difference?: String;
+              time?: string;
+              zone?: string;
+              difference?: string;
           };
-    removeInvalidChars?: Boolean;
+    removeInvalidChars?: boolean;
 };
 
 type GeneralOps = {
-    val_name?: String;
-    re_enter_if_exists?: Boolean;
-    removeInvalidChars?: Boolean;
+    val_name?: string;
+    re_enter_if_exists?: boolean;
+    removeInvalidChars?: boolean;
 };
 
 type TapOps = GeneralOps & {
-    max_digits?: Number;
-    min_digits?: Number;
-    sec_wait?: Number;
-    typing_playback_mode?: 'Number' | 'Digits' | 'File' | 'TTS' | 'Alpha' | 'No' | 'HebrewKeyboard' | 'EmailKeyboard' | 'EnglishKeyboard' | 'DigitsKeyboard' | 'TeudatZehut' | 'Price' | 'Time' | 'Phone' | 'No';
-    block_asterisk_key?: Boolean;
-    block_zero_key?: Boolean;
-    replace_char?: String;
-    digits_allowed?: Array<Number | String>;
-    amount_attempts?: Number;
-    allow_empty?: Boolean;
-    empty_val: String;
-    block_change_type_lang: Boolean;
+    max_digits?: number;
+    min_digits?: number;
+    sec_wait?: number;
+    typing_playback_mode?: 'number' | 'Digits' | 'File' | 'TTS' | 'Alpha' | 'No' | 'HebrewKeyboard' | 'EmailKeyboard' | 'EnglishKeyboard' | 'DigitsKeyboard' | 'TeudatZehut' | 'Price' | 'Time' | 'Phone' | 'No';
+    block_asterisk_key?: boolean;
+    block_zero_key?: boolean;
+    replace_char?: string;
+    digits_allowed?: Array<number | string>;
+    amount_attempts?: number;
+    allow_empty?: boolean;
+    empty_val: string;
+    block_change_type_lang: boolean;
 };
 
 type SstOps = GeneralOps & {
-    lang: String;
-    block_typing?: Boolean;
-    max_digits?: Number;
-    use_records_recognition_engine?: Boolean;
-    quiet_max?: Number;
-    length_max?: Number;
+    lang: string;
+    block_typing?: boolean;
+    max_digits?: number;
+    use_records_recognition_engine?: boolean;
+    quiet_max?: number;
+    length_max?: number;
 };
 
 type RecordOps = GeneralOps & {
-    path: String;
-    file_name: String;
-    no_confirm_menu: Boolean;
-    save_on_hangup: Boolean;
-    append_to_existing_file: Boolean;
-    min_length?: Number;
-    max_length?: Number;
+    path: string;
+    file_name: string;
+    no_confirm_menu: boolean;
+    save_on_hangup: boolean;
+    append_to_existing_file: boolean;
+    min_length?: number;
+    max_length?: number;
 };
 
 type idListMessageOptions = {
-    removeInvalidChars?: Boolean;
-    prependToNextAction?: Boolean;
+    removeInvalidChars?: boolean;
+    prependToNextAction?: boolean;
 };
 
 class CallError extends Error {
-    name: String;
-    message: String;
-    callerFile: String;
+    name: string;
+    message: string;
+    callerFile: string;
     call: Call;
     date: Date;
-    isYemotRouterError: Boolean;
+    isYemotRouterError: boolean;
     constructor ({ message, call = null }) {
     }
 }
