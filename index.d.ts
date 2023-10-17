@@ -43,6 +43,11 @@ type YemotRouterOptions = ExpressRouterOptions & {
 
 type CallHandler = (call: Call) => Promise<void>;
 
+interface RouterEventEmitter extends EventEmitter {
+    on(eventName: 'call_hangup' | 'call_continue' | 'new_call', listener: (call: Call) => void): this;
+    once(eventName: 'call_hangup' | 'call_continue' | 'new_call', listener: (call: Call) => void): this;
+}
+
 interface YemotRouter extends Omit<Router, 'get' | 'post' | 'all' > {
     get: (path: string, handler: CallHandler) => void;
     post: (path: string, handler: CallHandler) => void;
@@ -52,7 +57,7 @@ interface YemotRouter extends Omit<Router, 'get' | 'post' | 'all' > {
      * @returns true if the call was deleted, false if the call was not found
      */
     deleteCall: (callId: string) => boolean;
-    events: EventEmitter;
+    events: RouterEventEmitter;
     defaults: Defaults;
 }
 
