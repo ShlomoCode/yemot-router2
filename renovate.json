@@ -15,7 +15,7 @@
     },
     {
       "depTypeList": ["dependencies"],
-      "matchPackageNames": [ "@types/node" ],
+      "matchPackageNames": [ "@types/node", "@types/express" ],
       "dependencyDashboardApproval": true,
       "groupName": "devDependencies"
     },

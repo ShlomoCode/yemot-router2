@@ -1,24 +1,62 @@
 import { EventEmitter } from 'events';
-export declare function YemotRouter(options?: { timeout: number; printLog: boolean; uncaughtErrorHandler: function }): YemotRouter;
+import { Router } from 'express';
 
-type CallHandler = (p: Call) => void;
-interface YemotRouter {
+type Defaults = {
+    printLog?: boolean;
+    read?: {
+        timeout?: number;
+        tap?: TapOptions;
+        stt?: SstOptions;
+        record?: RecordOptions;
+    };
+    id_list_message?: IdListMessageOptions;
+};
+
+// from @types/express - https://github.com/DefinitelyTyped/DefinitelyTyped/blob/f800de4ffd291820a9e444e6b6cd3ac9b4a16e53/types/express/index.d.ts#L73-#L92
+interface ExpressRouterOptions {
+    /**
+     * Enable case sensitivity.
+     */
+    caseSensitive?: boolean | undefined;
+
+    /**
+     * Preserve the req.params values from the parent router.
+     * If the parent and the child have conflicting param names, the child’s value take precedence.
+     *
+     * @default false
+     * @since 4.5.0
+     */
+    mergeParams?: boolean | undefined;
+
+    /**
+     * Enable strict routing.
+     */
+    strict?: boolean | undefined;
+}
+
+type YemotRouterOptions = ExpressRouterOptions & {
+    timeout?: number;
+    printLog?: boolean;
+    uncaughtErrorHandler?: (error: Error, call: Call) => void;
+    defaults?: Defaults;
+};
+
+type CallHandler = (call: Call) => Promise<void>;
+
+interface YemotRouter extends Omit<Router, 'get' | 'post' | 'all' > {
     get: (path: string, handler: CallHandler) => void;
     post: (path: string, handler: CallHandler) => void;
     all: (path: string, handler: CallHandler) => void;
+    /**
+     * delete call from active calls by callId
+     * @returns true if the call was deleted, false if the call was not found
+     */
     deleteCall: (callId: string) => boolean;
     events: EventEmitter;
-    defaults: {
-        printLog?: boolean;
-        read?: {
-            timeout?: number;
-            tap?: TapOps;
-            stt?: SstOps;
-            record?: RecordOps;
-        };
-        id_list_message?: idListMessageOptions;
-    }
+    defaults: Defaults;
 }
+
+export declare function YemotRouter(options?: YemotRouterOptions): YemotRouter;
 
 // based of https://tchumim.com/post/157692, https://tchumim.com/post/157706
 type ReadModes = {
@@ -35,7 +73,7 @@ export type Call = {
     extension: string;
     read<T extends keyof ReadModes>(messages: Msg[], mode: T, options?: ReadModes[T]): Promise<string>;
     go_to_folder(target: string): void;
-    id_list_message(messages: Msg[], options?: idListMessageOptions): void;
+    id_list_message(messages: Msg[], options?: IdListMessageOptions): void;
     routing_yemot(number: string): void;
     restart_ext(): void;
     hangup(): void;
@@ -94,7 +132,7 @@ interface RecordOptions extends GeneralOptions {
     max_length?: number;
 }
 
-type idListMessageOptions = {
+type IdListMessageOptions = {
     removeInvalidChars?: boolean;
     prependToNextAction?: boolean;
 };
