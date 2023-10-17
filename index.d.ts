@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { Router } from 'express';
+import { Router, Request, Send } from 'express';
 
 type Defaults = {
     printLog?: boolean;
@@ -71,6 +71,7 @@ type ReadModes = {
 };
 
 export type Call = {
+    req: Request;
     did: string;
     phone: string;
     real_did: string;
@@ -82,6 +83,9 @@ export type Call = {
     routing_yemot(number: string): void;
     restart_ext(): void;
     hangup(): void;
+    send: Send;
+    readonly values: { readonly [key: string]: string };
+    defaults: Defaults;
 };
 
 export type Msg = {
