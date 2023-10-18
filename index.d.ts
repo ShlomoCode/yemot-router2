@@ -41,14 +41,14 @@ type YemotRouterOptions = ExpressRouterOptions & {
     defaults?: Defaults;
 };
 
-type CallHandler = (call: Call) => Promise<void>;
+type CallHandler = (call: Call) => Promise<unknown>;
 
 interface RouterEventEmitter extends EventEmitter {
     on(eventName: 'call_hangup' | 'call_continue' | 'new_call', listener: (call: Call) => void): this;
     once(eventName: 'call_hangup' | 'call_continue' | 'new_call', listener: (call: Call) => void): this;
 }
-
-interface YemotRouter extends Omit<Router, 'get' | 'post' | 'all'> {
+type HttpMethods = 'all' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'options' | 'head';
+interface YemotRouter extends Omit<Router, HttpMethods> {
     get: (path: string, handler: CallHandler) => void;
     post: (path: string, handler: CallHandler) => void;
     all: (path: string, handler: CallHandler) => void;
@@ -61,7 +61,7 @@ interface YemotRouter extends Omit<Router, 'get' | 'post' | 'all'> {
     defaults: Defaults;
 }
 
-export declare function YemotRouter(options?: YemotRouterOptions): YemotRouter;
+export function YemotRouter(options?: YemotRouterOptions): YemotRouter;
 
 // based of https://tchumim.com/post/157692, https://tchumim.com/post/157706
 type ReadModes = {
