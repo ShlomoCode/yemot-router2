@@ -48,7 +48,7 @@ interface RouterEventEmitter extends EventEmitter {
     once(eventName: 'call_hangup' | 'call_continue' | 'new_call', listener: (call: Call) => void): this;
 }
 
-interface YemotRouter extends Omit<Router, 'get' | 'post' | 'all' > {
+interface YemotRouter extends Omit<Router, 'get' | 'post' | 'all'> {
     get: (path: string, handler: CallHandler) => void;
     post: (path: string, handler: CallHandler) => void;
     all: (path: string, handler: CallHandler) => void;
@@ -90,14 +90,7 @@ export type Call = {
 
 export type Msg = {
     type: 'file' | 'text' | 'speech' | 'digits' | 'number' | 'alpha' | 'zmanim' | 'go_to_folder' | 'system_message' | 'music_on_hold' | 'date' | 'dateH';
-    data:
-        | string
-        | number
-        | {
-              time?: string;
-              zone?: string;
-              difference?: string;
-          };
+    data: string | number | { time?: string; zone?: string; difference?: string };
     removeInvalidChars?: boolean;
 };
 
@@ -146,29 +139,28 @@ type IdListMessageOptions = {
     prependToNextAction?: boolean;
 };
 
-class CallError extends Error {
-    name: string;
-    message: string;
-    callerFile: string;
-    call: Call;
-    date: Date;
-    isYemotRouterError: boolean;
-    constructor ({ message, call = null }) {
-    }
+export class CallError extends Error {
+    readonly date: Date;
+    readonly call: Call;
+
+    constructor(options: { message: string; call: Call });
 }
 
-class ExitError extends CallError {
-    constructor(call: Call, context: Object) {}
+export class ExitError extends CallError {
+    readonly context: {
+        caller: 'go_to_folder' | 'id_list_message' | 'routing_yemot';
+        target: string;
+    };
+
+    constructor(call: Call, context: ExitError['context']);
 }
 
-class HangupError extends CallError { }
-
-class TimeoutError extends CallError {
-    constructor(call: Call) { }
+export class HangupError extends CallError {
+    constructor(call: Call);
 }
 
-export const errors = {
-    ExitError,
-    HangupError,
-    TimeoutError
-};
+export class TimeoutError extends CallError {
+    readonly timeout: number;
+
+    constructor(call: Call, timeout: number);
+}
