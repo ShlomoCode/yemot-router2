@@ -110,7 +110,7 @@ export interface TapOptions extends GeneralOptions {
     digits_allowed?: Array<number | string>
     amount_attempts?: number
     allow_empty?: boolean
-    empty_val?: string
+    empty_val?: any
     block_change_keyboard?: boolean
 }
 
