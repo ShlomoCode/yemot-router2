@@ -103,19 +103,40 @@ export interface TapOptions extends GeneralOptions {
     max_digits?: number
     min_digits?: number
     sec_wait?: number
+    /**
+     * @default "No"
+     */
     typing_playback_mode?: 'number' | 'Digits' | 'File' | 'TTS' | 'Alpha' | 'No' | 'HebrewKeyboard' | 'EmailKeyboard' | 'EnglishKeyboard' | 'DigitsKeyboard' | 'TeudatZehut' | 'Price' | 'Time' | 'Phone' | 'No'
+    /**
+     * @default false
+     */
     block_asterisk_key?: boolean
+    /**
+     * @default false
+     */
     block_zero_key?: boolean
     replace_char?: string
     digits_allowed?: Array<number | string>
     amount_attempts?: number
+    /**
+     * @default false
+     */
     allow_empty?: boolean
+    /**
+     * @default "None"
+     */
     empty_val?: any
+    /**
+     * @default false
+     */
     block_change_keyboard?: boolean
 }
 
 export interface SstOptions extends GeneralOptions {
     lang?: string
+    /**
+     * @default false
+     */
     block_typing?: boolean
     max_digits?: number
     use_records_recognition_engine?: boolean
@@ -126,15 +147,32 @@ export interface SstOptions extends GeneralOptions {
 export interface RecordOptions extends GeneralOptions {
     path?: string
     file_name?: string
+    /**
+     * @default false
+     */
     no_confirm_menu?: boolean
+    /**
+     * @default true
+     */
     save_on_hangup?: boolean
+    /**
+     * @default false
+     */
     append_to_existing_file?: boolean
     min_length?: number
     max_length?: number
 }
 
 interface IdListMessageOptions {
+    /**
+     * הסרה אוטומטית של תווים לא חוקיים מתשובות TTS
+     * @default: false
+     */
     removeInvalidChars?: boolean
+    /**
+     * יש להגדיר במידה ומעוניינים לשרשר פעולות נוספות (לדוגמה read)
+     * @default: false
+     */
     prependToNextAction?: boolean
 }
 
