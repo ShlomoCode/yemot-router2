@@ -47,11 +47,12 @@ interface RouterEventEmitter extends EventEmitter {
     on: (eventName: 'call_hangup' | 'call_continue' | 'new_call', listener: (call: Call) => void) => this
     once: (eventName: 'call_hangup' | 'call_continue' | 'new_call', listener: (call: Call) => void) => this
 }
-type HttpMethods = 'all' | 'get' | 'post' | 'put' | 'delete' | 'patch' | 'options' | 'head';
-interface YemotRouter extends Omit<Router, HttpMethods> {
+
+export function YemotRouter (options?: YemotRouterOptions): {
     get: (path: string, handler: CallHandler) => void
     post: (path: string, handler: CallHandler) => void
     all: (path: string, handler: CallHandler) => void
+    use: Router['use']
     /**
      * delete call from active calls by callId
      * @returns true if the call was deleted, false if the call was not found
@@ -59,9 +60,7 @@ interface YemotRouter extends Omit<Router, HttpMethods> {
     deleteCall: (callId: string) => boolean
     events: RouterEventEmitter
     defaults: Defaults
-}
-
-export function YemotRouter (options?: YemotRouterOptions): YemotRouter;
+};
 
 // based of https://tchumim.com/post/157692, https://tchumim.com/post/157706
 interface ReadModes {
