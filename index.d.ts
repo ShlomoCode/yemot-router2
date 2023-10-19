@@ -100,7 +100,7 @@ type GeneralOptions = {
     removeInvalidChars?: boolean;
 };
 
-interface TapOptions extends GeneralOptions {
+export interface TapOptions extends GeneralOptions {
     max_digits?: number;
     min_digits?: number;
     sec_wait?: number;
@@ -112,10 +112,10 @@ interface TapOptions extends GeneralOptions {
     amount_attempts?: number;
     allow_empty?: boolean;
     empty_val?: string;
-    block_change_type_lang?: boolean;
+    block_change_keyboard?: boolean;
 }
 
-interface SstOptions extends GeneralOptions {
+export interface SstOptions extends GeneralOptions {
     lang?: string;
     block_typing?: boolean;
     max_digits?: number;
@@ -124,7 +124,7 @@ interface SstOptions extends GeneralOptions {
     length_max?: number;
 }
 
-interface RecordOptions extends GeneralOptions {
+export interface RecordOptions extends GeneralOptions {
     path?: string;
     file_name?: string;
     no_confirm_menu?: boolean;
