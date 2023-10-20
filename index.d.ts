@@ -37,7 +37,7 @@ interface ExpressRouterOptions {
 type YemotRouterOptions = ExpressRouterOptions & {
     timeout?: number
     printLog?: boolean
-    uncaughtErrorHandler?: (error: Error, call: Call) => void
+    uncaughtErrorHandler?: (error: Error, call: Call) => void | Promise<unknown>
     defaults?: Defaults
 };
 
