@@ -60,6 +60,21 @@ export function YemotRouter (options?: YemotRouterOptions): {
     deleteCall: (callId: string) => boolean
     events: RouterEventEmitter
     defaults: Defaults
+    /**
+     * מתודה לשימוש בטייפסקריפט בלבד
+     * ---------------
+     * מחזיר את הראוטר ‫(`YemotRouter`) כפי שהוא - עם טייפ של ‫`Express.Router`, למניעת שגיאת טייפ
+     * @example ```ts
+     * import express from 'express';
+     * import { YemotRouter } from 'yemot-router';
+     *  
+     * const app = express();
+     * const router = YemotRouter();
+     * 
+     * app.use(router.asExpressRouter()); // 👈👈👈
+     * ```
+     */
+    asExpressRouter: () => Router
 };
 
 // based of https://tchumim.com/post/157692, https://tchumim.com/post/157706
