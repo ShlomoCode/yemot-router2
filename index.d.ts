@@ -85,12 +85,6 @@ interface ReadModes {
 }
 
 export interface Call {
-    req: Request
-    did: string
-    phone: string
-    real_did: string
-    callId: string
-    extension: string
     read: <T extends keyof ReadModes>(messages: Msg[], mode: T, options?: ReadModes[T]) => Promise<string>
     go_to_folder: (target: string) => void
     id_list_message: (messages: Msg[], options?: IdListMessageOptions) => void
@@ -100,6 +94,21 @@ export interface Call {
     send: Send
     values: Readonly<Record<string, string>>
     defaults: Defaults
+    req: Request
+    did: string
+    phone: string
+    real_did: string
+    callId: string
+    extension: string
+    ApiCallId: string
+    ApiPhone: string
+    ApiDID: string
+    ApiRealDID: string
+    ApiExtension: string
+    ApiEnterID: string
+    ApiEnterIDName: string
+    ApiTime: string
+    ApiYFCallId: string
 }
 
 export interface Msg {
