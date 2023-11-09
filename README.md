@@ -1,6 +1,6 @@
 # yemot-router2
 
-ספריה שמאפשרת לתכנת מערכות טלפוניות בקלות באמצעות [מודול API](https://f2.freeivr.co.il/post/76) של 'ימות המשיח'.
+ספריה שמאפשרת לתכנת מערכות טלפוניות בקלות באמצעות [מודול API](https://f2.freeivr.co.il/post/76) של חברת 'ימות המשיח'.
 
 מטרת הספריה לאפשר תקשורת מול המערכת הטלפונית בצורה נקיה וקריאה:
 
@@ -18,7 +18,7 @@ npm install yemot-router2
 
 # יומן שינויים/הוראות שדרוג
 
-🤖 משדרגים מגרסה קודמת? ראו [changelog](./CHANGELOG.md)!
+⚙️ משדרגים מגרסה קודמת? ראו [changelog](./CHANGELOG.md)!
 
 # תיעוד
 
@@ -41,11 +41,11 @@ router.get('/', async (call) => {
 });
 ```
 
-את הראוטר יש לחבר לאפליקציית express על ידי app.use, כרגיל.
+את הראוטר יש לחבר לאפליקציית express על ידי `app.use`, כרגיל.
 
 הראוטר מקבל פונקצייה אסינכרונית, שהארגומנט שהיא מקבלת מהראוטר הוא אובייקט `Call` (יבואר בהמשך), המייצג את השיחה, ובאמצעות המתודות שלו ניתן לקבל מידע אודות השיחה, להשמיע/לבקש נתונים מהמחייג, להפנות אותו לשלוחה אחרת, ועוד.
 
-**👈👈 ראה דוגמה בסיסית ב [example.js](example.js)**
+**👨‍💻 דוגמה בסיסית: [example.js](example.js)**
 
 **טיפ**: מומלץ מאוד לא להגדיר בשלוחה `api_hangup_send=no`, לביצועי זיכרון טובים יותר.
 
@@ -65,10 +65,10 @@ router.get('/', async (call) => {
 
 # מתודות אובייקט ה`Call`
 
-## `read(messages, mode: 'tap' | 'stt' | 'record', options?)`
+## `read(messages, mode, options?)`
 
-מתודה לקבלת נתון מהמחייג, מחזירה Promise עם התשובה (במקרה של בקשת הקלטה, יחזור נתיב הקובץ).<br>
-פירוט נוסף על read: [https://f2.freeivr.co.il/post/78283](https://f2.freeivr.co.il/post/78283)
+מתודה לקבלת נתון מהמחייג, מחזירה `Promise` עם התשובה (במקרה של בקשת הקלטה, יחזור נתיב הקובץ).<br>
+פירוט נוסף על `read`: [https://f2.freeivr.co.il/post/78283](https://f2.freeivr.co.il/post/78283)
 
 ### הארגומנט `messages`
 
@@ -241,7 +241,7 @@ const options = {
 
 ניתן לכתוב נתיב יחסי לשלוחה הנוכחית או לשלוחה הראשית, פירוט על האופציות הזמינות ניתן לקרוא [כאן](https://f2.freeivr.co.il/post/58).
 
-ניתן גם להעביר בפרמטר folder את הסטרינג `hangup`, וכך לנתק את השיחה, או להשתמש בקיצור `call.hangup()` (ראו מטה).
+ניתן גם להעביר בפרמטר folder את הסטרינג `hangup`, וכך לנתק את השיחה, או להשתמש בקיצור [`call.hangup()`](#hangup).
 
 ## `restart_ext()`
 
@@ -270,7 +270,7 @@ call.go_to_folder('hangup');
 
 לאחר השמעת ההודעות, השיחה תצא אוטומטית מהשלוחה!
 
-באם מעוניינים לשרשר פעולה נוספת לאחר ההשמעה, לדוגמה להשמיע הודעה ואז לבצע <code>read</code> (קבלת נתונים נוספים), יש להגדיר בארגומנט הoptions את `prependToNextAction` ל`true`.
+באם מעוניינים לשרשר פעולה נוספת לאחר ההשמעה, לדוגמה להשמיע הודעה ואז לבצע `read` (קבלת נתונים נוספים), יש להגדיר בארגומנט ה`options` את `prependToNextAction` ל`true`.
 
 </div>
 
@@ -299,10 +299,10 @@ await call.blockRunningUntilNextRequest();
 כל אובייקט הודעה צריך להיות במבנה הבא:
 
 ```js
-{ type: String, data: String }
+{ type: string, data: string }
 ```
 
-כאשר `type` הוא סוג הודעה מתוך הטבלה שלהלן, ו`data` הוא המידע עצמו - `String`,<br>
+כאשר `type` הוא סוג הודעה מתוך הטבלה שלהלן, ו`data` הוא המידע עצמו - `string`,<br>
 מלבד כאשר ה`type` הוא `zmanim`/`music_on_hold`, שאז ה`data` יהיה אובייקט  - מפורט מתחת לטבלה:
 
 - [zmanim](#מבנה-הdata-בzmanim)
@@ -356,13 +356,13 @@ await call.blockRunningUntilNextRequest();
 
 - ברמת כל ה`read`/`id_list_message` - העברת הפרמטר `removeInvalidChars` באובייקט האפשרויות.
 
-דוגמה לread:
+דוגמה ל`read`:
 
 ```js
 const resp = await call.read(messagesWidthInvalidChars, 'tap', { removeInvalidChars: true });
 ```
 
-דוגמה לid_list_message:
+דוגמה ל`id_list_message`:
 
 ```js
 call.id_list_message(messagesWidthInvalidChars, { removeInvalidChars: true });
@@ -372,9 +372,9 @@ call.id_list_message(messagesWidthInvalidChars, { removeInvalidChars: true });
 
 ```js
 {
-    time: String, // optional, default: "T" (current time)
-    zone: String, // optional, default: "IL/Jerusalem",
-    difference: String // optional, default: 0
+    time: string, // optional, default: "T" (current time)
+    zone: string, // optional, default: "IL/Jerusalem",
+    difference: string // optional, default: 0
 };
 ```
 
@@ -419,8 +419,8 @@ const messages = [{
 
 ```js
 {
-    musicName: String,
-    maxSec: Number // optional
+    musicName: string,
+    maxSec: number // optional
 };
 ```
 
@@ -433,7 +433,7 @@ const messages = [{
 
 אפשרות זו זמינה בגרסה 6.0 ומעלה
 
-אפשרות זו הינה אופציונלית לחלוטין, ניתן להמשיך להעביר אובייקט אפשרויות בכל read/id_list_message כמו קודם
+אפשרות זו הינה אופציונלית לחלוטין, ניתן להמשיך להעביר אובייקט אפשרויות בכל `read`/`id_list_message` כמו קודם
 
 -------------
 
@@ -496,8 +496,8 @@ router.get('/', async (call) => {
 
 **שימו לב!** ניתן להגדיר את האופציות הבאות ברמת קריאה בודדת בלבד ולא ברמת שיחה/ראוטר:
 
-- `val_name` (read)
-- `prependToNextAction` (id_list_message)
+- `val_name` (`read`)
+- `prependToNextAction` (`id_list_message`)
 
 # Events
 
@@ -541,13 +541,13 @@ const res = await call.read([{ type: 'text', data: 'please type one' }], 'tap', 
 
 ## הרצת קוד לאחר החזרת תשובה למחייג
 
-**⚠️ שימו לב - קטע זה מורכב מעט להבנה, ונצרך רק אם מעוניינים להחזיר תשובה למחייב ולתת לו לצאת מהשלוחה (id_list_message), ולאחר מכן להריץ קוד "כבד", ולא נצרכת אם נותנים למאזין להמתין לאישור ביצוע הפעולה (באמצעות read).**
+**⚠️ שימו לב - קטע זה מורכב מעט להבנה, ונצרך רק אם מעוניינים להחזיר תשובה למחייב ולתת לו לצאת מהשלוחה (`id_list_message`), ולאחר מכן להריץ קוד "כבד", ולא נצרכת אם נותנים למאזין להמתין לאישור ביצוע הפעולה (באמצעות `read`).**
 
-בעת החזרת תשובה שאינה read ולא גורמת לשרת של ימות לחזור לראוטר - id_list_message או go_to_folder,
+בעת החזרת תשובה שאינה `read` ולא גורמת לשרת של ימות לחזור לראוטר - `id_list_message` או `go_to_folder`,
 נזרקת שגיאה על ידי הספריה - שתופסת אותה בחזרה ברמה יותר גבוהה, וכך ריצת הפונקציה נהרגת כדי לחסוך בזיכרון
-וכן לנקות את השיחה מהactiveCalls - כדי שבכניסה חוזרת לשלוחה הפונקציה תרוץ מההתחלה ולא תמשיך.
+וכן לנקות את השיחה מה`activeCalls` - כדי שבכניסה חוזרת לשלוחה הפונקציה תרוץ מההתחלה ולא תמשיך.
 
-לכן אם מנסים להחזיר תשובה למשתמש ולאחר מכן להריץ את הקוד ה"כבד" כמו שניתן לעשות בשרת nodejs + express, לדוגמה:
+לכן אם מנסים להחזיר תשובה למשתמש ולאחר מכן להריץ את הקוד ה"כבד" כמו שעושים בשרת nodejs + express רגיל, לדוגמה:
 
 ```js
 function runBigJob(req, res) {
@@ -588,12 +588,10 @@ async function runBigJob (call) {
 }
 ```
 
-אופציה נוספת היא להריץ את הקוד בצורה מנותקת מהפונקציה, כלומר קריאה לקוד ה"כבד" בתוך פונקציית חץ **לפני** החזרת התשובה.
-
 ### מחיקה ידנית של השיחה מה`activeCalls`
 
 אין צורך לזרוק ידנית את `ExitError` כדי למחוק את השיחה מהactiveCalls, כיוון שהיא נמחקת אוטומטית על ידי הספריה בסיום הריצה של הפונקציה.<br>
-עם זאת, באם הקוד הנוסף המורץ אמור לקחת זמן, מומלץ לנקות ידנית באופן מיידי (מייד לאחר החזרת התשובה בid_list_message) את השיחה מהactiveCalls - אחרת לא יהיה ניתן להיכנס לשלוחה עד לסיום ביצוע הפעולה הכבדה:
+עם זאת, באם הקוד הנוסף המורץ אמור לקחת זמן, מומלץ לנקות ידנית באופן מיידי (מייד לאחר החזרת התשובה ב`id_list_message`) את השיחה מהactiveCalls - אחרת לא יהיה ניתן להיכנס לשלוחה עד לסיום ביצוע הפעולה הכבדה:
 
 ```js
 const router = YemotRouter({ printLog: true });
@@ -610,4 +608,15 @@ router.get('/', async (call) => {
     router.deleteCall(call.callId);
     await doBigJob();
 });
+```
+
+## דרך נוספת להרצת קוד כבד
+
+אופציה נוספת היא להריץ את הקוד בצורה מנותקת מהפונקציה, כלומר קריאה לקוד ה"כבד" בתוך פונקצייה אנונימית **לפני** החזרת התשובה:
+
+```js
+(() => {
+    await doBigJob();
+})();
+call.id_list_message(...);
 ```
