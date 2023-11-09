@@ -1,5 +1,5 @@
 import { type EventEmitter } from 'events';
-import { type Router, type Request, type Send } from 'express';
+import { type Router, type Request, type Response } from 'express';
 
 interface Defaults {
     printLog?: boolean
@@ -91,7 +91,7 @@ export interface Call {
     routing_yemot: (number: string) => void
     restart_ext: () => void
     hangup: () => void
-    send: Send
+    send: (resp: string) => Response<string>
     values: Readonly<Record<string, string>>
     defaults: Defaults
     req: Request
