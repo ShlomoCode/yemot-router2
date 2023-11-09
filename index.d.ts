@@ -125,9 +125,31 @@ export interface Call {
      * ```
      */
     id_list_message: (messages: Msg[], options?: IdListMessageOptions) => void
+    /**
+     * מתודה להעברת השיחה למערכת אחרת בימות המשיח ללא עלות יחידות, באמצעות ‫"ראוטינג ימות"<br>
+     * הפונקציה מקבלת ארגומנט יחיד - סטרינג של מספר מערכת בימות להעברת השיחה אליה<br>
+     */
     routing_yemot: (number: string) => void
+    /**
+     * הפעלה מחדש של השלוחה הנוכחית<br>
+     * <hr>
+     * 
+     * ‫קיצור לתחביר הבא:
+     * ```js
+     * call.go_to_folder(`/${call.ApiExtension}`);
+     * ```
+     */
     restart_ext: () => void
     hangup: () => void
+    /**
+     * ניתן להשתמש במתודה זו כדי לשלוח סטרינג חופשי לחלוטין, לדוגמה עבור פונקציונליות שעדיין לא נתמכת בספרייה<br>
+     * במתודה זו יש להעביר את הסטרינג בדיוק כפי שמעוניינים שהשרת של ימות יקבל אותו, והוא לא עובר אף ולידציה או עיבוד<br>
+     * 
+     * :כדי להשתמש לבקשת מידע - לדוגמה מעבר לסליקת אשראי, ניתן לשלב עם קריאות ל
+     * ```
+     * await call.blockRunningUntilNextRequest();
+     * ```
+     */
     send: Send
     values: Readonly<Record<string, string>>
     defaults: Defaults
