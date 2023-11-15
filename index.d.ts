@@ -49,8 +49,17 @@ interface RouterEventEmitter extends EventEmitter {
 }
 
 export function YemotRouter (options?: YemotRouterOptions): {
+    /**
+     * הוספת הנלדר לשיחות (במתודת ‫`GET` בלבד)
+     */
     get: (path: string, handler: CallHandler) => void
+    /**
+     * הוספת הנלדר לשיחות (במתודת ‫`POST` בלבד - ‫`api_url_post=yes`)
+     */
     post: (path: string, handler: CallHandler) => void
+    /**
+     * הוספת הנלדר לשיחות במתודת ‫`GET` וגם במתודת ‫`POST`
+     */
     all: (path: string, handler: CallHandler) => void
     use: Router['use']
     /**
@@ -140,6 +149,12 @@ export interface Call {
      * ```
      */
     restart_ext: () => void
+    /**
+     * ניתוק השיחה. קיצור לתחביר הבא‫:
+     * ```js
+     * call.go_to_folder('hangup');
+     * ```
+     */
     hangup: () => void
     blockRunningUntilNextRequest: () => Promise<void>
     /**
@@ -152,7 +167,15 @@ export interface Call {
      * ```
      */
     send: (resp: string) => Response<string>
+    /**
+     * מכיל את כל הפרמטרים שנשלחו מימות<br>
+     * אם הבקשה נשלחה ב-‫`HTTP GET`, יכיל את ה‫`query string`<br>
+     * אם הבקשה נשלחה ב-‫`HTTP POST`, יכיל את ה‫`body`
+     */
     values: Readonly<Record<string, string>>
+    /**
+     * ברירות מחדל - ברמת שיחה (דורס את הברירות מחדל ברמת ראוטר)
+     */
     defaults: Defaults
     req: Request
     /**
