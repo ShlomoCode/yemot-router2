@@ -35,8 +35,26 @@ interface ExpressRouterOptions {
 }
 
 type YemotRouterOptions = ExpressRouterOptions & {
+    /**
+     * ‫ זמן המתנה לקבלת נתון מהמשתמש (במילישניות). במידה ולא התקבל הנתון בזמן הנ"ל, השיחה תימחק מה`activeCalls` וגם אם המשתמש יקיש השרת יקבל אותו כשיחה חדשה<br>
+     * ‫מקבל מספר מילישיניות, או מחרוזת הקבילה ע"י ספריית [ספריית ms](https://npmjs.com/ms).<br>
+     * ‫מכסה גם מקרי קצה שלא התקבלה מימות אות ניתוק (קריאה עם `hangup=yes` בפרטרים)<br>
+     * 
+     * ‫יש לשים לב לא להגדיר ערך נמוך שמחייג לגיטימי שלא הקיש מיד תשובה עלול להיתקל ב-timeout<br>
+     * 
+     * ברירת מחדל: אין ‫timeout
+     */
     timeout?: number
+    /**
+     * האם להדפיס לוג מפורט על כל קריאה לשרת, שיחה חדשה, ניתוק ועוד. שימושי לפיתוח ודיבוג<br>
+     * @see [router.events](https://github.com/ShlomoCode/yemot-router2#events) - קבלת קאלבק על שיחה חדשה/קבלת נתון ממאזין/ניתוק שיחה, למשתמשים מתקדמים. לא תלוי בהגדרה זו
+     * @default false
+     */
     printLog?: boolean
+    /**
+     * הגדרת קאלבק לטיפול בשגיאות בתוך שיחה, שימושי לדוגמה לשמירת לוג + השמעת הודעה למשתמש, במקום קריסה של השרת (והמשתמש ישמע "אין מענה משרת ‫API")<br>
+     * ראה דוגמה ב‫[example.js](https://github.com/ShlomoCode/yemot-router2/blob/master/example.js)
+     */
     uncaughtErrorHandler?: (error: Error, call: Call) => void | Promise<unknown>
     defaults?: Defaults
 };
@@ -170,7 +188,7 @@ export interface Call {
     /**
      * מכיל את כל הפרמטרים שנשלחו מימות<br>
      * אם הבקשה נשלחה ב-‫`HTTP GET`, יכיל את ה‫`query string`<br>
-     * אם הבקשה נשלחה ב-‫`HTTP POST`, יכיל את ה‫`body`
+     * אם הבקשה נשלחה ב-‫`HTTP POST` (‫`api_url_post=yes`), יכיל את ה‫`body`
      */
     values: Readonly<Record<string, string>>
     /**
