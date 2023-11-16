@@ -2,8 +2,30 @@ import { type EventEmitter } from 'events';
 import { type Router, type Request, type Response } from 'express';
 
 interface Defaults {
+    /**
+     * האם להדפיס לוג מפורט על כל קריאה לשרת, שיחה חדשה, ניתוק ועוד. שימושי לפיתוח ודיבוג<br>
+     * @see [router.events](https://github.com/ShlomoCode/yemot-router2#events) - קבלת קאלבק על שיחה חדשה/קבלת נתון ממאזין/ניתוק שיחה, למשתמשים מתקדמים. לא תלוי בהגדרה זו
+     * @default false
+     */
     printLog?: boolean
+    /**
+     * האם להסיר אוטומטית תווים לא חוקיים (`.`,`-`,`'`,`"`,`&`) מתשובות הקראת טקסט<br>
+     * ,באם לא מוגדרת הסרה (ברירת מחדל), תיזרק שגיאה<br>
+     * באם מוגדרת הסרה ‫(`true`) התווים יוסרו מהתשובה שתוחזר לימות ולא תיזרק שגיאה<br>
+     * ניתן להגדיר ערך זה ב3 רמות, ראו [תיעוד מלא](https://github.com/ShlomoCode/yemot-router2#%D7%AA%D7%95%D7%95%D7%99%D7%9D-%D7%9C%D7%90-%D7%97%D7%95%D7%A7%D7%99%D7%99%D7%9D-%D7%91%D7%94%D7%A7%D7%A8%D7%90%D7%AA-%D7%98%D7%A7%D7%A1%D7%98)
+     * @default false
+     */
+    removeInvalidChars?: boolean
     read?: {
+        /**
+         * ‫ זמן המתנה לקבלת נתון מהמשתמש (במילישניות). במידה ולא התקבל הנתון בזמן הנ"ל, השיחה תימחק מה`activeCalls` וגם אם המשתמש יקיש השרת יקבל אותו כשיחה חדשה<br>
+         * ‫מקבל מספר מילישיניות, או מחרוזת הקבילה ע"י ספריית [ספריית ms](https://npmjs.com/ms).<br>
+         * ‫מכסה גם מקרי קצה שלא התקבלה מימות אות ניתוק (קריאה עם `hangup=yes` בפרטרים)<br>
+         * 
+         * ‫יש לשים לב לא להגדיר ערך נמוך שמחייג לגיטימי שלא הקיש מיד תשובה עלול להיתקל ב-timeout<br>
+         * 
+         * ברירת מחדל: אין ‫timeout
+         */
         timeout?: number
         tap?: TapOptions
         stt?: SstOptions
