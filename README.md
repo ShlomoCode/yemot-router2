@@ -294,6 +294,14 @@ call.go_to_folder('hangup');
 await call.blockRunningUntilNextRequest();
 ```
 
+# `values`
+
+מכיל את כל הפרמטרים שנשלחו מימות -
+
+אם הבקשה נשלחה ב-‫`HTTP GET`, יכיל את ה‫`query string`,
+
+אם הבקשה נשלחה ב-‫`HTTP POST` ‫(`api_url_post=yes`), יכיל את ה‫`body`
+
 # אובייקט `message`
 
 כל אובייקט הודעה צריך להיות במבנה הבא:
@@ -458,6 +466,7 @@ const messages = [{
 const router = YemotRouter({
     printLog: true,
     defaults: {
+        removeInvalidChars: true,
         read: {
             timeout: 30000
         }
