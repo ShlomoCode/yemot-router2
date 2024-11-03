@@ -123,7 +123,7 @@ export function YemotRouter (options?: YemotRouterOptions): {
      * app.use(router.asExpressRouter); // 👈👈👈
      * ```
      */
-    asExpressRouter: () => Router
+    asExpressRouter: Router
 };
 
 // based of https://tchumim.com/post/157692, https://tchumim.com/post/157706
