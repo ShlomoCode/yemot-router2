@@ -21,7 +21,7 @@
   "author": "musicode1, ShlomoCode",
   "license": "MIT",
   "dependencies": {
-    "@rollup/plugin-node-resolve": "^15.3.1",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.30",
     "colors": "^1.4.0",
