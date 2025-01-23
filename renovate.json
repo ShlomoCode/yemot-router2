@@ -15,7 +15,7 @@
     },
     {
       "depTypeList": ["dependencies"],
-      "matchPackageNames": [ "@types/node", "@types/express" ],
+      "matchPackageNames": ["@types/node", "@types/express"],
       "dependencyDashboardApproval": true,
       "groupName": "devDependencies"
     },
@@ -23,6 +23,10 @@
       "depTypeList": ["devDependencies"],
       "dependencyDashboardApproval": true,
       "groupName": "devDependencies"
+    },
+    {
+      "matchPackageNames": ["eslint"],
+      "ignoreDeps": ["9.x"]
     }
   ]
 }
