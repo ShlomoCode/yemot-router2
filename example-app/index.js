@@ -1,5 +1,5 @@
 import express from 'express';
-import { YemotRouter } from './index.js';
+import { YemotRouter } from 'yemot-router2';
 import { fileURLToPath } from 'url';
 import process from 'process';
 export const app = express();
@@ -25,7 +25,7 @@ router.events.on('new_call', (call) => {
     console.log(`[example.js] new call ${call.callId} from ${call.phone}`);
 });
 
-/** @param {import('./index.js').Call} call */
+/** @param {import('yemot-router2').Call} call */
 async function callHandler (call) {
     // לא ניתן להתקדם ללא הקשת 10 וסולמית
     await call.read([{ type: 'text', data: 'היי, תקיש 10' }], 'tap', {

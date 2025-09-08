@@ -1,9 +1,9 @@
 import request from 'supertest';
 import { CallSimulator } from './utils';
-import { app as exampleApp, router } from '../example.js';
+import { app as exampleApp, router } from '../example-app/index.js';
 import qs from 'qs';
 
-describe('example.js file', () => {
+describe('example-app file', () => {
     const randomPort = Math.floor(Math.random() * 10000) + 10000;
     let server;
 

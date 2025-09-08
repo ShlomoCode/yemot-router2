@@ -8,7 +8,6 @@
   },
   "type": "module",
   "scripts": {
-    "example": "node --watch example.js",
     "lint": "eslint . --fix --ext .js,.cjs,.mjs --ignore-path .gitignore",
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "prepublishOnly": "rollup --config rollup.config.js",
