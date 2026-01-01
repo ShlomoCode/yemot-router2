@@ -332,8 +332,8 @@ await call.blockRunningUntilNextRequest();
 | `zmanim`         | השמעת שעה                                                                              | אובייקט. פירוט בנפרד 👇                                                 | -                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `system_message` | השמעת הודעת מערכת                                                                      | `M1005` או `1005`                                                      | [רשימת הודעות המערכת](https://f2.freeivr.co.il/post/3)                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | `music_on_hold`  | השמעת מוזיקה בהמתנה                                                                    | `{ musicName: 'ztomao', maxSec: 10 }`                                  | הפרמור maxSec רשות. ראה [כאן](https://f2.freeivr.co.il/topic/44/%D7%9E%D7%95%D7%96%D7%99%D7%A7%D7%94-%D7%91%D7%94%D7%9E%D7%AA%D7%A0%D7%94) סוגי מוזיקה זמינים והוראות ליצירת חדש.                                                                                                                                                                                                                                                                                                                                    |
-| `dateH`           | השמעת תאריך עברי                                                                       | פורמט `DD/MM/YYYY` - 28/07/2022                                        | -                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `date`          | השמעת תאריך לועזי                                                                      | פורמט תאריך לועזי `DD/MM/YYYY`, ישמיע את התאריך העברי המתאים           | -                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `dateH`          | השמעת תאריך עברי                                                                       | פורמט `DD/MM/YYYY` - 28/07/2022                                        | -                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `date`           | השמעת תאריך לועזי                                                                      | פורמט תאריך לועזי `DD/MM/YYYY`, ישמיע את התאריך העברי המתאים           | -                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `go_to_folder`   | נתיב יחסי לשלוחה הנוכחית או לשלוחה הראשית, ראה [כאן](https://f2.freeivr.co.il/post/58) | העברת השיחה לשלוחה אחרת                                                | לא מומלץ, עדיף להשתמש ב [`call.go_to_folder`](#go_to_folderpath). לא ניתן לשרשר הודעות נוספות לאחר סוג זה.                                                                                                                                                                                                                                                                                                                                                                                                           |
 </div>
 
@@ -551,7 +551,7 @@ const res = await call.read([{ type: 'text', data: 'please type one' }], 'tap', 
 
 ## הרצת קוד לאחר החזרת תשובה למחייג
 
-**⚠️ שימו לב - קטע זה מורכב מעט להבנה, ונצרך רק אם מעוניינים להחזיר תשובה למחייג ולתת לו לצאת מהשלוחה (`id_list_message`), ולאחר מכן להריץ קוד "כבד", ולא נצרכת אם נותנים למאזין להמתין לאישור ביצוע הפעולה (באמצעות `read`).**
+**⚠️ שימו לב - קטע זה מורכב מעט להבנה, ונצרך רק אם מעוניינים להחזיר תשובה למחייג ולתת לו לצאת מהשלוחה (`id_list_message`), ולאחר מכן להריץ קוד "כבד", ולא אם נותנים למאזין להמתין לאישור ביצוע הפעולה (באמצעות `read`).**
 
 בעת החזרת תשובה שאינה `read` ולא גורמת לשרת של ימות לחזור לראוטר - `id_list_message` או `go_to_folder`,
 נזרקת שגיאה על ידי הספריה - שתופסת אותה בחזרה ברמה יותר גבוהה, וכך ריצת הפונקציה נהרגת כדי לחסוך בזיכרון
@@ -584,6 +584,7 @@ async function runBigJob(call) {
 
 ```js
 import { ExitError } from 'yemot-router2';
+
 async function runBigJob (call) {
     try {
         call.id_list_message([{
@@ -591,8 +592,9 @@ async function runBigJob (call) {
             data: 'בסדר, בקשתך תטופל בהקדם'
         }]);
     } catch (error) {
-        if (error.isExitError) return;
-        throw error;
+        if (!(error instanceof ExitError)) {
+            throw error;
+        };
     };
     await doBigJob();
 }
@@ -605,6 +607,8 @@ async function runBigJob (call) {
 
 ```js
 const router = YemotRouter({ printLog: true });
+import { ExitError } from 'yemot-router2';
+
 router.get('/', async (call) => {
     try {
         call.id_list_message([{
@@ -612,8 +616,9 @@ router.get('/', async (call) => {
             data: 'בסדר, בקשתך תטופל בהקדם'
         }]);
     } catch (error) {
-        if (error.isExitError) return;
-        throw error;
+        if (!(error instanceof ExitError)) {
+            throw error;
+        };
     };
     router.deleteCall(call.callId);
     await doBigJob();
