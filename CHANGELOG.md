@@ -3,6 +3,20 @@
 
 הספריה עוקבת אחרי [Semantic Versioning](https://semver.org) ([עברית](https://semver.org/lang/he/)).
 
+## ‏6.3.0
+
+- נוספה אופציה `logTimestamps` להוספת חותמות זמן (timestamps) בפורמט ISO להודעות הלוג שהספרייה מדפיסה
+  - ברירת מחדל: `false` (כדי לשמור על תאימות לאחור)
+  - שימושי במיוחד בסביבות production כמו Kubernetes שבהן חשוב לראות מתי בדיוק כל פעולה התרחשה
+  - דוגמה לשימוש:
+    ```javascript
+    const router = YemotRouter({
+        printLog: true,
+        logTimestamps: true
+    });
+    ```
+  - פורמט הלוג עם timestamps: `[2025-11-06T17:56:55.068Z] [call-id]: message`
+
 ## ‏6.2.0
 
 - נוסף טייפ `SYSTEM_MESSAGE_CODES` עבור הודעות מערכת, המספק גם בטיחות מפני טעות הקלדה וגם הצגת תיאור ההודעה בריחוף על שמה
