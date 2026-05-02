@@ -96,6 +96,26 @@ describe('test read defaults and options', () => {
         expect(response.text).toBe('read=t-hello world=val_1,no,,1,7,Digits,yes,yes,,,,,None,');
     });
 
+    it('should accept empty stt response (silent caller) without re-prompting', async () => {
+        const callSimulator = new CallSimulator(randomPort);
+        let receivedValue;
+        router.get('/read_stt_silent', async (call) => {
+            receivedValue = await call.read([{
+                type: 'text',
+                data: 'speak now'
+            }], 'stt');
+            return call.id_list_message([{
+                type: 'text',
+                data: 'got it'
+            }]);
+        });
+        await callSimulator.get('/read_stt_silent');
+        callSimulator.values.val_1 = '';
+        const response = await callSimulator.get('/read_stt_silent');
+        expect(receivedValue).toBe('');
+        expect(response.text).toBe('id_list_message=t-got it&');
+    });
+
     it('should response is native null (in empty_val)', async () => {
         const callSimulator = new CallSimulator(randomPort);
         router.get('/read_tap_3', async (call) => {
