@@ -42,5 +42,8 @@
     "qs": "^6.16.0",
     "rollup": "^4.30.1",
     "supertest": "^6.3.4"
+  },
+  "overrides": {
+    "qs": "$qs"
   }
 }
