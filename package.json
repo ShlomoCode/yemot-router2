@@ -1,6 +1,6 @@
 {
   "name": "yemot-router2",
-  "version": "6.2.2",
+  "version": "6.2.3",
   "description": "",
   "exports": {
     "import": "./index.js",
