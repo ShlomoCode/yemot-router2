@@ -14,5 +14,8 @@
     "dependencies": {
         "express": "^4.22.1",
         "yemot-router2": "file:.."
+    },
+    "overrides": {
+        "qs": "6.16.0"
     }
 }
